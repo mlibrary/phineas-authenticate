@@ -1,0 +1,27 @@
+name: "Tests"
+
+on:
+  push:
+    branches: ["main"]
+  pull_request: null
+
+jobs:
+  run-suite:
+    name: "Run suite"
+    runs-on: "ubuntu-latest"
+    strategy:
+      fail-fast: false
+      matrix:
+        suite:
+        - "lint"
+        - "specs"
+        - "features"
+    steps:
+    - uses: "actions/checkout@v4"
+    - run: "docker build --target development --tag tests ."
+    - if: matrix.suite == 'lint'
+      run: "docker run tests standardrb"
+    - if: matrix.suite == 'specs'
+      run: "docker run tests rspec"
+    - if: matrix.suite == 'features'
+      run: "docker run tests cucumber --publish-quiet"
