@@ -1,5 +1,11 @@
 require "sinatra"
 
 get "/" do
-  "Hello!"
+  <<~WEBPAGE
+    <html>
+      <body>
+        <p>Hello!</p>
+      </body>
+    </html>
+  WEBPAGE
 end
