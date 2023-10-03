@@ -1,0 +1,34 @@
+version: "3.3"
+
+services:
+  tests:
+    build:
+      context: "."
+      target: "development"
+
+  features:
+    build:
+      context: "."
+      target: "capybara"
+    networks: ["frontend"]
+    depends_on:
+      web:
+        condition: "service_healthy"
+    environment:
+      APP_URL: "http://web:4567"
+
+  web:
+    build:
+      context: "."
+      target: "production"
+    networks: ["frontend"]
+    healthcheck:
+      test: ["CMD", "curl", "-fSs", "http://localhost:4567/"]
+      interval: "1m30s"
+      timeout: "10s"
+      retries: 3
+      start_period: "40s"
+      start_interval: "5s"
+
+networks:
+  frontend: {}

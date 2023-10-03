@@ -10,4 +10,7 @@ end
 
 group :acceptance_test do
   gem "cucumber"
+  gem "rspec-expectations"
+  gem "capybara"
+  gem "selenium-webdriver"
 end

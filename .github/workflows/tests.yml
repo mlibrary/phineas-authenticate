@@ -18,10 +18,13 @@ jobs:
         - "features"
     steps:
     - uses: "actions/checkout@v4"
-    - run: "docker build --target development --tag tests ."
+    - if: matrix.suite != 'features'
+      run: "docker compose build tests"
     - if: matrix.suite == 'lint'
-      run: "docker run tests standardrb"
+      run: "docker compose run tests standardrb"
     - if: matrix.suite == 'specs'
-      run: "docker run tests rspec"
+      run: "docker compose run tests rspec"
     - if: matrix.suite == 'features'
-      run: "docker run tests cucumber --publish-quiet"
+      run: |
+        docker compose build features web
+        docker compose run features
