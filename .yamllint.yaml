@@ -1,0 +1,18 @@
+extends: "default"
+ignore: |
+  .git
+  .bundle
+
+rules:
+  document-start:
+    ignore: "*"
+  indentation:
+    spaces: 2
+    indent-sequences: false
+    check-multi-line-strings: true
+  line-length:
+    max: 120
+  quoted-strings:
+    quote-type: "double"
+    allow-quoted-quotes: true
+    ignore: "/data/.github/workflows"

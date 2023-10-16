@@ -1,6 +1,6 @@
 name: "Tests"
 
-on:
+"on":
   push:
     branches: ["main"]
   pull_request: null
@@ -20,6 +20,8 @@ jobs:
     - uses: "actions/checkout@v4"
     - if: matrix.suite == 'lint'
       run: "docker compose run tests standardrb"
+    - if: matrix.suite == 'lint'
+      run: "docker compose run yaml-lint"
     - if: matrix.suite == 'specs'
       run: "docker compose run tests rspec"
     - if: matrix.suite == 'features'

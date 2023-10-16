@@ -6,6 +6,14 @@ services:
       context: "."
       target: "unit-test"
 
+  yaml-lint:
+    image: "docker.io/cytopia/yamllint:1"
+    command: ["-c", "/data/.yamllint.yaml", "/data"]
+    volumes:
+    - type: "bind"
+      source: "."
+      target: "/data"
+
   features:
     build:
       context: "."
