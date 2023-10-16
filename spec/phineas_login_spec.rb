@@ -12,6 +12,6 @@ RSpec.describe "My App" do
   it "says hello" do
     get "/"
     expect(last_response).to be_ok
-    expect(last_response).to match /hello/i
+    expect(last_response).to match(/hello/i)
   end
 end
