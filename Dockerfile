@@ -23,9 +23,11 @@ RUN bundle config set without "acceptance_test" \
       && bundle install \
       && mkdir $RUBOCOP_CACHE_ROOT \
       && chmod 1777 $RUBOCOP_CACHE_ROOT
-COPY hello.rb ./
+COPY ./lib lib/
+COPY ./spec spec/
 COPY ./features features/
 USER 1234:1234
+ENV APP_ENV="test"
 CMD ["rspec"]
 
 FROM gemfiles AS development
