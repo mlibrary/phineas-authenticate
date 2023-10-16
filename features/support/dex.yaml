@@ -1,0 +1,21 @@
+issuer: "http://dex:5556"
+enablePasswordDB: true
+storage:
+  type: "memory"
+
+staticClients:
+- id: "app"
+  name: "Example"
+  secret: "VerySecret"
+  redirectURIs:
+  - "http://web:4567/oidc/logged-in"
+
+frontend:
+  issuer: "Mock IDP"
+
+staticPasswords:
+- username: "admin"
+  # bcrypt hash of the string "password": $(echo password | htpasswd -BinC 10 admin | cut -d: -f2)
+  hash: "$2a$10$2b2cU8CPhOTaGrs1HRQuAueS7JTT5ZHsHSzYiFPm1leZck7Mc8T4W"
+  email: "admin@example.com"
+  userID: "548e50bf-7ab0-40e4-abae-626dc264ae59"
