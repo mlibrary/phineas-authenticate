@@ -4,26 +4,57 @@ services:
   tests:
     build:
       context: "."
-      target: "development"
+      target: "unit-test"
 
   features:
     build:
       context: "."
-      target: "capybara"
+      target: "acceptance-test"
     networks: ["frontend"]
     depends_on:
+      dex:
+        condition: "service_healthy"
       web:
         condition: "service_healthy"
     environment:
       APP_URL: "http://web:4567"
+      DEX_URL: "http://dex:5556"
+      MOCK_USERNAME: "admin@example.com"
+      MOCK_PASSWORD: "password"
 
   web:
     build:
       context: "."
       target: "production"
     networks: ["frontend"]
+    environment:
+      APP_URL: "http://web:4567"
+      DEX_URL: "http://dex:5556"
     healthcheck:
       test: ["CMD", "curl", "-fSs", "http://localhost:4567/"]
+      interval: "1m30s"
+      timeout: "10s"
+      retries: 3
+      start_period: "40s"
+      start_interval: "5s"
+
+  dex:
+    image: "ghcr.io/dexidp/dex:v2.36.0"
+    command:
+    - "dex"
+    - "serve"
+    - "--web-http-addr"
+    - "0.0.0.0:5556"
+    - "--telemetry-addr"
+    - "0.0.0.0:5558"
+    - "/etc/dex/config.yaml"
+    networks: ["frontend"]
+    volumes:
+    - type: "bind"
+      source: "./features/support/dex.yaml"
+      target: "/etc/dex/config.yaml"
+    healthcheck:
+      test: ["CMD-SHELL", "wget --no-verbose --tries=1 --spider http://localhost:5558/healthz/ready || exit 1"]
       interval: "1m30s"
       timeout: "10s"
       retries: 3

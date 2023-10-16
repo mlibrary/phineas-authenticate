@@ -18,13 +18,9 @@ jobs:
         - "features"
     steps:
     - uses: "actions/checkout@v4"
-    - if: matrix.suite != 'features'
-      run: "docker compose build tests"
     - if: matrix.suite == 'lint'
       run: "docker compose run tests standardrb"
     - if: matrix.suite == 'specs'
       run: "docker compose run tests rspec"
     - if: matrix.suite == 'features'
-      run: |
-        docker compose build features web
-        docker compose run features
+      run: "docker compose run features"
