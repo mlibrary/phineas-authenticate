@@ -137,6 +137,7 @@ DEPENDENCIES
   capybara
   cucumber
   puma
+  rack-test
   rspec
   rspec-expectations
   selenium-webdriver

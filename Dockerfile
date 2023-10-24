@@ -3,7 +3,7 @@ WORKDIR /app
 RUN bundle config set --global frozen 1
 COPY Gemfile Gemfile.lock ./
 ENTRYPOINT ["bundle", "exec"]
-CMD ["ruby", "hello.rb"]
+CMD ["ruby", "lib/phineas_login.rb"]
 
 FROM ghcr.io/instrumentisto/geckodriver:118.0.2 AS gecko
 
@@ -23,9 +23,11 @@ RUN bundle config set without "acceptance_test" \
       && bundle install \
       && mkdir $RUBOCOP_CACHE_ROOT \
       && chmod 1777 $RUBOCOP_CACHE_ROOT
-COPY hello.rb ./
+COPY ./lib lib/
+COPY ./spec spec/
 COPY ./features features/
 USER 1234:1234
+ENV APP_ENV="test"
 CMD ["rspec"]
 
 FROM gemfiles AS development
@@ -36,7 +38,7 @@ EXPOSE 4567
 FROM gemfiles AS production
 RUN bundle config set without "unit_test acceptance_test" \
       && bundle install
-COPY hello.rb ./
+COPY ./lib lib/
 USER 1234:1234
 ENV APP_ENV="production"
 EXPOSE 4567

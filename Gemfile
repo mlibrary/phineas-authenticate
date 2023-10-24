@@ -4,6 +4,7 @@ gem "sinatra"
 gem "puma"
 
 group :unit_test do
+  gem "rack-test"
   gem "rspec"
   gem "standard"
 end
