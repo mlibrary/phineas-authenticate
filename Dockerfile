@@ -5,7 +5,7 @@ COPY Gemfile Gemfile.lock ./
 ENTRYPOINT ["bundle", "exec"]
 CMD ["ruby", "hello.rb"]
 
-FROM ghcr.io/instrumentisto/geckodriver:118.0.2 AS gecko
+FROM ghcr.io/instrumentisto/geckodriver:119.0.1 AS gecko
 
 FROM gemfiles AS web-browser
 RUN apt-get update && apt-get install -y firefox-esr
