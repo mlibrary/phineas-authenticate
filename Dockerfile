@@ -1,4 +1,4 @@
-FROM docker.io/library/ruby:3.2.2 AS gemfiles
+FROM docker.io/library/ruby:3.3.0 AS gemfiles
 WORKDIR /app
 RUN bundle config set --global frozen 1
 COPY Gemfile Gemfile.lock ./
