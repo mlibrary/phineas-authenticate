@@ -17,7 +17,7 @@ jobs:
         - "specs"
         - "features"
     steps:
-    - uses: "actions/checkout@v4"
+    - uses: "actions/checkout@v6"
     - if: matrix.suite == 'lint'
       run: "docker compose run tests standardrb"
     - if: matrix.suite == 'lint'
